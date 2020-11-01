@@ -1,0 +1,62 @@
+﻿@using PGManager.Models
+@model IEnumerable<UserDocument>
+@{
+    ViewData["Title"] = "Documents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Documents</h2>
+@if (Model != null)
+{
+    <div class="row">
+        @foreach (UserDocument doc in Model)
+        {
+            <div class="col-md-2 col-xs-4 col-sm-4 mb-3">
+                <a asp-action="Delete" asp-route-id="@doc.Id" class="btn btn-outline btn-sm position-absolute" title="Delete">
+                    <i class="fa fa-trash" style="color:red;"></i>
+                </a>
+                <img class="pgPhoto" src="@doc.Url" style="width:100%;" />
+            </div>
+        }
+    </div>
+}
+<hr />
+<h3>Upload new</h3>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UploadDocument" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="fileToUpload" accept="image/*" />
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="PhotoCarousel" class="overlay-full" style="display:none;" onclick="HideOverlay()">
+</div>
+<div id="FullScreenPhoto" class="overlay-full-item">
+    <img id="FullScreenImage" src="" style="width:100%" />
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(".pgPhoto").on("click", function (e) {
+            $('#PhotoCarousel').show(300);
+            $('#FullScreenPhoto').show(500);
+            setTimeout(function () {
+                $('#FullScreenImage').attr('src', e.target.src);
+            }, 500)
+
+        });
+        function HideOverlay() {
+            $('#PhotoCarousel').hide(500);
+            $('#FullScreenPhoto').hide(300);
+            setTimeout(function () {
+                $('#FullScreenImage').attr('src', '');
+            }, 500)
+        }
+    </script>
+}

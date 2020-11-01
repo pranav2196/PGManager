@@ -1,0 +1,24 @@
+﻿@model IEnumerable<PGManager.Models.PGRequest>
+@using PGManager.Models.Enums;
+
+@{
+    ViewData["Title"] = "Requests";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Requests</h2>
+<br />
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-join-tab" data-toggle="tab" href="#nav-join" role="tab" aria-controls="nav-home" aria-selected="true">Join Requests</a>
+        <a class="nav-item nav-link" id="nav-leave-tab" data-toggle="tab" href="#nav-leave" role="tab" aria-controls="nav-profile" aria-selected="false">Leave Requests</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-join" role="tabpanel" aria-labelledby="nav-join-tab">
+        <partial name="_PGRequestList" model="Model.Where(req=>req.RequestType==RequestType.Join).ToList()" />
+    </div>
+    <div class="tab-pane fade" id="nav-leave" role="tabpanel" aria-labelledby="nav-leave-tab">
+        <partial name="_PGRequestList" model="Model.Where(req=>req.RequestType==RequestType.Leave).ToList()" />
+    </div>
+</div>

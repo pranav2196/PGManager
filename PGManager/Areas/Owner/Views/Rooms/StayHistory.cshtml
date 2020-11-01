@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PGManager.Models.Stay>
+
+@{
+	ViewData["Title"] = "Room Stay History";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-primary">My Stays</h2>
+<br />
+<div class="row">
+	@if (Model.Any())
+	{
+		foreach (var stay in Model)
+		{
+			<div class="card col-md-3 p-1">
+				<div class="card-body">
+					<dl class="row">
+						<dt class="col-sm-5">
+							Tenant
+						</dt>
+						<dd class="col-sm-7">
+							<a asp-action="UserDetails"asp-controller="Request" asp-area="Owner" asp-route-id="@stay.TenantId" target="_blank">@stay.Tenant.Name</a>
+						</dd>
+						<dt class="col-sm-5">
+							Room
+						</dt>
+						<dd class="col-sm-7">
+							@stay.Room.RoomNumber
+						</dd>
+						<dt class="col-sm-5">
+							Bed
+						</dt>
+						<dd class="col-sm-7">
+							@stay.Bed.BedNo
+						</dd>
+						<dt class="col-sm-5">
+							Start Date
+						</dt>
+						<dd class="col-sm-7">
+							@stay.StartDate.ToString("dd-MMM-yyyy")
+						</dd>
+						<dt class="col-sm-5">
+							End Date
+						</dt>
+						<dd class="col-sm-7">
+							@(stay.EndDate?.ToString("dd-MMM-yyyy")??"Not Available")
+						</dd>
+						<dt class="col-sm-5">
+							Active
+						</dt>
+						<dd class="col-sm-7">
+							@if (stay.IsActive)
+							{
+								<span class="btn btn-outline-light btn-sm text-dark"><i class="fa fa-check-circle" style="color:green;"></i>&nbsp;Active</span>
+							}
+							else
+							{
+								<span class="btn btn-outline-light btn-sm text-dark"><i class="fa fa-times-circle" style="color:red;"></i>&nbsp;Inactive</span>
+							}
+						</dd>
+					</dl>
+				</div>
+			</div>
+		}
+	}
+	else
+	{
+		<div class="text-center">No Data Available!</div>
+	}
+</div>

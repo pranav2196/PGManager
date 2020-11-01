@@ -1,0 +1,57 @@
+[
+	{
+		"Name": "Wi-Fi",
+		"Icon": "fa-wifi",
+		"IsActive": true
+	},
+	{
+		"Name": "Water",
+		"Icon": "fa-water",
+		"IsActive": true
+	},
+	{
+		"Name": "Fire Extinguisher",
+		"Icon": "fa-fire-extinguisher",
+		"IsActive": true
+	},
+	{
+		"Name": "Kitchen",
+		"Icon": "fa-utensils",
+		"IsActive": true
+	},
+	{
+		"Name": "Parking",
+		"Icon": "fa-parking",
+		"IsActive": true
+	},
+	{
+		"Name": "Surveillance",
+		"Icon": "fa-eye",
+		"IsActive": true
+	},
+	{
+		"Name": "Regular Sanitization",
+		"Icon": "fa-pump-medical",
+		"IsActive": true
+	},
+	{
+		"Name": "TV",
+		"Icon": "fa-tv",
+		"IsActive": true
+	},
+	{
+		"Name": "Power Backup",
+		"Icon": "fa-bolt",
+		"IsActive": true
+	},
+	{
+		"Name": "Regular Cleaning",
+		"Icon": "fa-broom",
+		"IsActive": true
+	},
+	{
+		"Name": "Geyser",
+		"Icon": "fa-fire",
+		"IsActive": true
+	}
+]

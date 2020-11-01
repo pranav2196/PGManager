@@ -1,0 +1,93 @@
+﻿@model PGManager.Models.PG
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "PG";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="">
+            <h1 class="font-weight-bold">
+                @(string.IsNullOrEmpty(Model.Name)?"Name Not Set": Model.Name) &nbsp;
+                <a asp-action="Upsert" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"></i> &nbsp;Edit</a>
+            </h1>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-sm-8 row">
+                    <div class="col-md-12">
+                        <h4 class="mb-3 text-info">Details</h4>
+                        <dl class="row">
+                            <dt class="col-sm-3">
+                                Address:
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.Address
+                            </dd>
+                            <dt class="col-sm-3">
+                                Email:
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.EmailAddress
+                            </dd>
+                            <dt class="col-sm-3">
+                                Phone:
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.Phone
+                            </dd>
+                            <dt class="col-sm-3">
+                                City:
+                            </dt>
+                            <dd class="col-sm-9">
+                                @Model.City?.Name
+                            </dd>
+                            <dt class="col-sm-3">
+                                Gender:
+                            </dt>
+                            <dd class="col-sm-9">
+                                @if (Model.IsMale)
+                                {
+                                    <span class="btn btn-outline-light btn-sm text-dark"><i class="fa fa-male" style="color:royalblue;"></i>&nbsp;Male</span>
+                                }
+                                @if (Model.IsFemale)
+                                {
+                                    <span class="btn btn-outline-light btn-sm text-dark"><i class="fa fa-female" style="color:hotpink;"></i>&nbsp;Female </span>
+                                }
+                            </dd>
+                            <dt class="col-sm-3">
+                                Active:
+                            </dt>
+                            <dd class="col-sm-9">
+                                @(Model.IsActive?"Yes":"No")
+                            </dd>
+                        </dl>
+                        <h4 class="text-info">Description</h4>
+                        <div class="card p-3 border-primary">
+                            @Html.Raw(Model.Description)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mb-3 text-info">Facilities</h4>
+                            <ul class="list-group">
+                                @if (Model.Facilities != null)
+                                {
+                                    for (int i = 0; i < Model.Facilities.Count; i++)
+                                    {
+                                        <li class="list-group-item">
+                                            <i class="fa @Model.Facilities[i]?.Facility.Icon mr-2 ml-2" style="color:royalblue;width: 30px;"></i>&nbsp;@Model.Facilities[i]?.Facility.Name
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

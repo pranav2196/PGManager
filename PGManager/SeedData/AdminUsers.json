@@ -1,0 +1,13 @@
+[
+	{
+		"Name": "Admin User",
+		"StreetAddress": "Andheri",
+		"City": "Mumbai",
+		"State": "Maharashtra",
+		"PostalCode": "400001",
+		"Gender": "M",
+		"Email": "admin@gmail.com",
+		"Pwd": "Admin@123",
+		"PhoneNumber": "9876543210"
+	}
+]

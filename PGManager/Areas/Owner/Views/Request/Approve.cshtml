@@ -1,0 +1,178 @@
+﻿@model PGManager.Models.ViewModels.PGRequestViewModel
+
+@{
+	ViewData["Title"] = "Approve Request";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+	<style>
+		.ApproveSection {
+			display: none;
+		}
+	</style>
+}
+
+<div class="row">
+	<div class="col-12 border-bottom">
+		<h2 class="text-primary">Approve</h2>
+	</div>
+	<div class="col-md-8 mt-3">
+		<form asp-action="Approve" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input asp-for="Request.Id" type="hidden" />
+			<input asp-for="Request.RequestType" type="hidden" />
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-sm-3 mt-1 mb-1">
+							<label asp-for="Request.RequestType" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							@Model.Request.RequestType
+						</div>
+						<div class="col-sm-3 mt-1 mb-1">
+							<label asp-for="Request.RequestStatus" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							@Model.Request.RequestStatus
+						</div>
+						<div class="col-sm-3 mt-1 mb-1">
+							<label asp-for="Request.Date" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							@Model.Request.Date.ToString("dd-MMM-yyyy")
+						</div>
+						<div class="col-sm-3 mt-1 mb-1">
+							<label asp-for="Request.RequestOn" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							@Model.Request.RequestOn.ToString("dd-MMM-yyyy")
+						</div>
+						<div class="col-sm-3 mt-1 mb-1">
+							<label asp-for="Request.Description" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							@Model.Request.Description
+						</div>
+						<div class="col-sm-3 mt-1 mb-1">
+							<label class="control-label font-weight-bold">Applicant</label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							<a asp-action="UserDetails" asp-controller="Request" asp-area="Owner" asp-route-id="@Model.Request.ApplicantUserId" target="_blank" style="cursor:pointer;" title="Applicant Details">
+								@Model.Request.Applicant.Name
+							</a>
+						</div>
+						<div class="col-sm-3 mt-1 mb-1">
+							<label asp-for="Action" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1">
+							<select asp-for="Action" class="form-control col-md-4">
+								<option value="" selected>Select Action</option>
+								<option value="A">Accept</option>
+								<option value="R">Reject</option>
+							</select>
+							<span asp-validation-for="Action" class="text-danger"></span>
+						</div>
+						<div class="col-sm-3 mt-1 mb-1 ApproveSection">
+							<label asp-for="RoomId" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1 ApproveSection">
+							@Html.DropDownListFor(m => m.RoomId, (IEnumerable<SelectListItem>)ViewBag.RoomList, "Select Room", new { @class = "form-control col-md-4" })
+							<span asp-validation-for="RoomId" class="text-danger"></span>
+						</div>
+						<div class="col-sm-3 mt-1 mb-1 ApproveSection">
+							<label asp-for="BedId" class="control-label font-weight-bold"></label>
+						</div>
+						<div class="col-sm-9 mt-1 mb-1 ApproveSection">
+							<select asp-for="BedId" class="form-control col-md-4" disabled>
+							</select>
+							<span asp-validation-for="BedId" class="text-danger"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-success" id="BtnSave" disabled />
+				<a type="button" asp-action="Index" class="btn btn-danger">Cancel</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+	<script>
+        $(document).ready(function () {
+            $('#BedId').find('option').remove().end().append('<option value="" selected>Select Bed</option>').val('');
+            var requestType = '@Model.Request.RequestType';
+            if ($('#Action').val() != '') {
+                $('#BtnSave').prop('disabled', false);
+				if ($('#Action').val() == "A") {
+					if (requestType=='Join')
+						$('.ApproveSection').show();
+                    $('#BtnSave').val('Approve');
+                }
+                else {
+                    $('.ApproveSection').hide();
+                    $('#BtnSave').val('Reject');
+                }
+            }
+
+            if ($('#RoomId').val() != '') {
+                GetBeds($('#RoomId').val());
+                $('#BedId').prop('disabled', false);
+            }
+
+            var roomId = $('#RoomId').val();
+            if (roomId != null && roomId != '' & !isNaN(roomId)) {
+                GetBeds(roomId);
+            }
+
+            $('#Action').change(function () {
+                var ddlValue = $(this).val();
+                if (ddlValue == null || ddlValue == '') {
+                    $('#BtnSave').prop('disabled', true);
+                    $('#BtnSave').val('Save');
+                    $('.ApproveSection').hide(300);
+                }
+                else {
+                    $('#BtnSave').prop('disabled', false);
+					if (ddlValue == "A") {
+						if (requestType == 'Join')
+							$('.ApproveSection').show(300);
+                        $('#BtnSave').val('Approve');
+                    }
+                    else {
+                        $('.ApproveSection').hide(300);
+                        $('#BtnSave').val('Reject');
+                    }
+                }
+            });
+
+            $('#RoomId').change(function () {
+                var ddlValue = $(this).val();
+                $('#BedId').prop('disabled', true);
+                if (ddlValue != null && ddlValue != '') {
+                    $('#BedId').prop('disabled', false);
+                    GetBeds(ddlValue);
+                }
+                else {
+                    $('#BedId').find('option').remove().end().append('<option value="" selected>Select Bed</option>').val('');
+                }
+            });
+
+            function GetBeds(roomId) {
+                var url = window.location.origin + '@Url.Action("GetBeds", "Request",new { Area="Owner"})' ;
+                var Beds = $("#BedId");
+                $.getJSON(url, { id: roomId }, function (response) {
+                    Beds.empty().append($('<option></option>').val('').text('Select Bed'));
+                    $.each(response, function (index, item) {
+                        Beds.append($('<option></option>').val(item.id).text(item.bedNo));
+                    });
+                });
+            }
+        });
+	</script>
+}

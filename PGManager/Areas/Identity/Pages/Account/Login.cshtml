@@ -1,0 +1,89 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4 border border-primary p-5 rounded bg-light">
+        <h1>@ViewData["Title"]</h1>
+        <section>
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <div class="row pl-4 pr-4">
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        @if (provider.Name.ToLower().Contains("facebook"))
+                        {
+                            <button type="submit" class="btn facebook-btn form-control col-md-5"
+                                    name="provider" value="@provider.Name"
+                                    title="Log in using your @provider.DisplayName account">
+                                <i class="fab fa-facebook-square"></i> @provider.DisplayName
+                            </button> }
+                        else
+                        {
+                            @if (provider.Name.ToLower().Contains("google"))
+                            {
+                                <button type="submit" class="btn google-btn form-control col-md-5 offset-2"
+                                        name="provider" value="@provider.Name"
+                                        title="Log in using your @provider.DisplayName account">
+                                    <img src="~/images/icons/google.svg" style="height:26px;" /> @provider.DisplayName
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary col-md-6" name="provider"
+                                        value="@provider.Name"
+                                        title="Log in using your @provider.DisplayName account">
+                                    @provider.DisplayName
+                                </button>
+                            }
+                        }
+                    }
+                </div>
+            </form>
+            <form id="account" method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary col-md-6"><i class="fa fa-sign-in-alt mr-2"></i>Log in</button>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"><i class="fa fa-user-plus mr-2"></i>Register as a new user</a>
+                    </p>
+                    <button type="submit" asp-page-handler="SendVerificationEmail" class="btn-link text-info"
+                            style="padding:0px;margin:0px;border:0px">
+                        Resend email confirmation
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PGManager.Models.Room>
+
+@{
+    ViewData["Title"] = "Rooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Rooms</h2>
+<br />
+<p>
+    <a asp-action="Upsert" class="btn btn-outline-success btn-sm"><i class="fas fa-plus"></i> &nbsp;Add Room</a>
+</p>
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Floor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr onclick="RoomDetails('@item.Id')" style="cursor:pointer;">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Floor)
+                    </td>
+                    <td>
+                        @(item.Gender=='M'?"Male":"Female")
+                    </td>
+                    <td>
+                        <a asp-action="Upsert" asp-route-id="@item.Id" class="btn btn-primary btn-sm" style="cursor:pointer;" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a> @*|
+                            <button onclick=Delete("/Owner/Rooms/Delete/@item.Id") class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>*@
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="5" style="text-align:center;">No Data Found</td></tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        function RoomDetails(id) {
+            var detailsURL = window.location.origin + '@Url.Action("Details","Rooms",new { Area="Owner"})';
+            document.location = detailsURL + '/' + id
+        }
+    </script>
+}

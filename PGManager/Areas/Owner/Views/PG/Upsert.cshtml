@@ -1,0 +1,110 @@
+﻿@model PGManager.Models.ViewModels.PGEditViewModel
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Edit PG";
+}
+<link rel="stylesheet" href="~/css/summernote.min.css" />
+<h2>Edit PG</h2>
+
+<form asp-action="Upsert" method="post">
+    <div class="row">
+        <div class="col-md-7">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PG.Id" />
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="PG.Name" class="control-label font-weight-bold"></label>
+                    <input asp-for="PG.Name" class="form-control" />
+                    <span asp-validation-for="PG.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PG.Address" class="control-label font-weight-bold"></label>
+                    <textarea asp-for="PG.Address" class="form-control" style="min-height:100px;"></textarea>
+                    <span asp-validation-for="PG.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PG.EmailAddress" class="control-label font-weight-bold"></label>
+                    <input asp-for="PG.EmailAddress" class="form-control" />
+                    <span asp-validation-for="PG.EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PG.Phone" class="control-label font-weight-bold"></label>
+                    <input asp-for="PG.Phone" class="form-control" />
+                    <span asp-validation-for="PG.Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PG.CityId" class="control-label font-weight-bold"></label>
+                    @Html.DropDownListFor(m => m.PG.CityId, (IEnumerable<SelectListItem>)ViewBag.CityList, "Select City",
+                   new { @class = "form-control" })
+                    <span asp-validation-for="PG.CityId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PG.Description" class="control-label font-weight-bold mr-5"></label>
+                    <textarea id="description-editor" asp-for="PG.Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="control-label font-weight-bold mr-5">Gender</label>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <input type="checkbox" asp-for="PG.IsMale" class="mr-2" /><i class="fa fa-male" style="color:royalblue;"></i>&nbsp;Male
+                        </li>
+                        <li class="list-group-item">
+                            <input type="checkbox" asp-for="PG.IsFemale" class="mr-2" /><i class="fa fa-female" style="color:hotpink;"></i>&nbsp;Female
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PG.IsActive" class="control-label font-weight-bold mr-5"></label>
+                    <input type="checkbox" asp-for="PG.IsActive" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 offset-md-1">
+            <h3 class="mb-3 text-info">Facilities</h3>
+            <ul class="list-group">
+                @for (int i = 0; i < Model.Facilities.Count; i++)
+                {
+                    <li class="list-group-item">
+                        <input type="hidden" asp-for="Facilities[i].Id" />
+                        <input type="checkbox" asp-for="Facilities[i].IsActive" />
+                        <i class="fa @Model.Facilities[i].Icon mr-2 ml-2" style="color:royalblue;width: 30px;"></i>&nbsp;@Model.Facilities[i].Name
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-6 mt-3">
+            <input type="submit" value="Save" class="btn btn-outline-primary" />
+            <a asp-action="Index" class="btn btn-outline-danger">Cancel</a>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <script src="~/js/summernote.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#description-editor').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['forecolor', ['forecolor']],
+                    ['para', ['ol', 'ul', 'paragraph', 'height']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'hr']],
+                    ['view', ['undo', 'redo', 'fullscreen']]
+                ]
+            });
+            $('form').each(function () {
+                if ($(this).data('validator'))
+                    $(this).data('validator').settings.ignore = ".note-editor *";
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
