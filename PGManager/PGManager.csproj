@@ -1,14 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-PGManager-21D863D3-41EE-494A-AF29-25B3A8F930F5</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="SeedData\AdminUsers.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.13.1" />
@@ -30,10 +26,6 @@
     <ProjectReference Include="..\PGManager.DataAccess\PGManager.DataAccess.csproj" />
     <ProjectReference Include="..\PGManager.Models\PGManager.Models.csproj" />
     <ProjectReference Include="..\PGManager.Utilities\PGManager.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="SeedData\AdminUsers.json" />
   </ItemGroup>
 
 </Project>
