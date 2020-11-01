@@ -100,13 +100,13 @@ namespace PGManager
 			services.AddAuthentication()
 				.AddFacebook(options =>
 			{
-				options.AppId = googleAuth.AppId;
-				options.AppSecret = googleAuth.AppSecret;
+				options.AppId = facebookAuth.AppId;
+				options.AppSecret = facebookAuth.AppSecret;
 			})
 				.AddGoogle(options =>
 			{
-				options.ClientId = facebookAuth.ClientId;
-				options.ClientSecret = facebookAuth.ClientSecret;
+				options.ClientId = googleAuth.ClientId;
+				options.ClientSecret = googleAuth.ClientSecret;
 			});
 		}
 

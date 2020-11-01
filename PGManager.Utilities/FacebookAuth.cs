@@ -6,7 +6,7 @@ namespace PGManager.Utilities
 {
 	public class FacebookAuth
 	{
-		public string ClientId { get; set; }
-		public string ClientSecret { get; set; }
+		public string AppId { get; set; }
+		public string AppSecret { get; set; }
 	}
 }
