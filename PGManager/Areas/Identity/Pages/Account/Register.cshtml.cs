@@ -131,14 +131,15 @@ namespace PGManager.Areas.Identity.Pages.Account
 					PostalCode = Input.PostalCode,
 					Name = Input.Name,
 					PhoneNumber = Input.PhoneNumber,
+					Role = Input.Role,
 					Gender = Input.Gender
 				};
 				var result = await _userManager.CreateAsync(user, Input.Password);
 				if (result.Succeeded)
 				{
 					_logger.LogInformation("User created a new account with password.");
-										
-					if (user.Role == null)
+
+					if (string.IsNullOrEmpty(user.Role))
 					{
 						await _userManager.AddToRoleAsync(user, SD.Role_User_Customer);
 					}
