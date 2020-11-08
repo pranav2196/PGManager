@@ -26,7 +26,7 @@ These instructions will get you a copy of the project up and running on your loc
 - [.Net Core 3.1](https://dotnet.microsoft.com/download) - This project uses .NET core 3.1
 - (Optional) [Microsoft SQL Server Express](https://www.microsoft.com/en-au/sql-server/sql-server-downloads) - If you wish to use MS SQL server as your database.
 - (Optional) [PostgreSQL](https://www.postgresql.org/download/) - If you wish to use PostgreSQL as your database.
-- (Optional) [SQLite](https://www.sqlite.org/download.html) - If you wish to use PSQLiteostgreSQL as your database.
+- (Optional) [SQLite](https://www.sqlite.org/download.html) - If you wish to use SQLite as your database.
 
 ### Installing
 
