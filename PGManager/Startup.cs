@@ -88,8 +88,8 @@ namespace PGManager
 			services.AddRazorPages();
 			services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 
-			var googleAuth = Configuration.GetSection("GoogleOAuth").Get<GoogleAuth>();
-			var facebookAuth = Configuration.GetSection("FacebookOAuth").Get<FacebookAuth>();
+			//var googleAuth = Configuration.GetSection("GoogleOAuth").Get<GoogleAuth>();
+			//var facebookAuth = Configuration.GetSection("FacebookOAuth").Get<FacebookAuth>();
 
 			services.ConfigureApplicationCookie(options =>
 			{
@@ -97,17 +97,17 @@ namespace PGManager
 				options.LogoutPath = $"/Identity/Account/Logout";
 				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 			});
-			services.AddAuthentication()
-				.AddFacebook(options =>
-			{
-				options.AppId = facebookAuth.AppId;
-				options.AppSecret = facebookAuth.AppSecret;
-			})
-				.AddGoogle(options =>
-			{
-				options.ClientId = googleAuth.ClientId;
-				options.ClientSecret = googleAuth.ClientSecret;
-			});
+			//services.AddAuthentication()
+			//	.AddFacebook(options =>
+			//{
+			//	options.AppId = facebookAuth.AppId;
+			//	options.AppSecret = facebookAuth.AppSecret;
+			//})
+			//	.AddGoogle(options =>
+			//{
+			//	options.ClientId = googleAuth.ClientId;
+			//	options.ClientSecret = googleAuth.ClientSecret;
+			//});
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
